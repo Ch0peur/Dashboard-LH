@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Last Hope</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandViolet: '#7B2CF5',
+            brandDarkViolet: '#4B139B',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Effet verre dépoli iOS (Glassmorphism) */
+    .ios-glass {
+      background: rgba(25, 16, 38, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .ios-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-brandDarkViolet via-black to-[#120822] text-white min-h-screen flex font-sans antialiased selection:bg-brandViolet selection:text-white">
+
+  <!-- Sidebar -->
+  <aside class="w-64 ios-glass p-6 flex flex-col justify-between hidden md:flex border-r border-white/10">
+    <div>
+      <!-- Brand Header -->
+      <div class="flex items-center gap-3 mb-8">
+        <img src="../Last_Hope.png" alt="Logo Last Hope" class="w-10 h-10 rounded-xl shadow-lg shadow-brandViolet/30 object-cover">
+        <span class="font-semibold text-lg tracking-wide">Last Hope</span>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="space-y-1">
+        <a href="#" class="flex items-center gap-3 px-4 py-2.5 bg-brandViolet/20 text-brandViolet font-medium rounded-xl border border-brandViolet/30 transition">
+          <span>📊</span> Tableau de bord
+        </a>
+        <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition">
+          <span>🔄</span> Cycle de vie
+        </a>
+        <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition">
+          <span>📈</span> Analytique
+        </a>
+        <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition">
+          <span>📁</span> Projets
+        </a>
+      </nav>
+    </div>
+
+    <!-- User Profile -->
+    <div class="flex items-center gap-3 pt-4 border-t border-white/10" id="userProfile">
+      <img src="../Last_Hope.png" alt="Logo Last Hope" class="w-9 h-9 rounded-full shadow-lg shadow-brandViolet/30 object-cover">
+      <div class="text-sm flex-1">
+        <p class="font-medium" id="userName">Utilisateur</p>
+        <p class="text-xs text-gray-400" id="userEmail">email@example.com</p>
+      </div>
+      <button id="logoutBtn" class="px-3 py-1.5 rounded-lg text-gray-400 hover:text-rose-400 hover:bg-rose-500/10 transition text-xs font-medium" title="Déconnexion">
+        🚪
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 p-8 space-y-6 overflow-y-auto">
+    
+    <!-- Top Bar -->
+    <header class="flex justify-between items-center">
+      <h1 class="text-2xl font-bold tracking-tight">Tableau de bord</h1>
+      <button class="bg-gradient-to-r from-brandViolet to-brandDarkViolet px-4 py-2 rounded-xl text-sm font-medium shadow-lg shadow-brandViolet/20 hover:opacity-90 transition">
+        + Création rapide
+      </button>
+    </header>
+
+    <!-- KPI Cards Grid -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="ios-card p-5 rounded-2xl backdrop-blur-md">
+        <p class="text-xs text-gray-400 mb-1">Revenu Total</p>
+        <h2 class="text-2xl font-bold">1 250,00 €</h2>
+        <span class="inline-block mt-2 text-xs text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">+12.5%</span>
+      </div>
+
+      <div class="ios-card p-5 rounded-2xl backdrop-blur-md">
+        <p class="text-xs text-gray-400 mb-1">Nouveaux Clients</p>
+        <h2 class="text-2xl font-bold">1 234</h2>
+        <span class="inline-block mt-2 text-xs text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded-full border border-rose-500/20">-20%</span>
+      </div>
+
+      <div class="ios-card p-5 rounded-2xl backdrop-blur-md">
+        <p class="text-xs text-gray-400 mb-1">Comptes Actifs</p>
+        <h2 class="text-2xl font-bold">45 678</h2>
+        <span class="inline-block mt-2 text-xs text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">+12.5%</span>
+      </div>
+
+      <div class="ios-card p-5 rounded-2xl backdrop-blur-md">
+        <p class="text-xs text-gray-400 mb-1">Taux de Croissance</p>
+        <h2 class="text-2xl font-bold">4.5%</h2>
+        <span class="inline-block mt-2 text-xs text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">+4.5%</span>
+      </div>
+    </section>
+
+    <!-- Chart Placeholder -->
+    <section class="ios-card p-6 rounded-2xl backdrop-blur-md">
+      <div class="flex justify-between items-center mb-6">
+        <div>
+          <h3 class="font-semibold text-lg">Total Visiteurs</h3>
+          <p class="text-xs text-gray-400">Activité globale du mois</p>
+        </div>
+        <!-- Segmented Control style iOS -->
+        <div class="bg-black/30 p-1 rounded-xl flex gap-1 border border-white/5 text-xs">
+          <button class="px-3 py-1.5 rounded-lg text-gray-400 hover:text-white">3 derniers mois</button>
+          <button class="px-3 py-1.5 rounded-lg bg-brandViolet text-white shadow font-medium">30 derniers jours</button>
+          <button class="px-3 py-1.5 rounded-lg text-gray-400 hover:text-white">7 derniers jours</button>
+        </div>
+      </div>
+      <!-- Zone Graphique -->
+      <div class="h-48 w-full bg-gradient-to-t from-brandViolet/20 to-transparent rounded-xl border-b border-brandViolet/40 flex items-end justify-between px-4 pb-2 text-xs text-gray-400">
+        <span>1 juin</span>
+        <span>7 juin</span>
+        <span>15 juin</span>
+        <span>23 juin</span>
+        <span>30 juin</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Client API d'authentification -->
+  <script src="auth-client.js"></script>
+
+  <!-- JavaScript d'initialisation -->
+  <script>
+    // Vérification de l'authentification au chargement
+    window.addEventListener('load', async function() {
+      if (!auth.isAuthenticated()) {
+        // Redirection vers la page de connexion si pas connecté
+        window.location.href = 'login.html';
+        return;
+      }
+
+      try {
+        // Récupération des infos de l'utilisateur
+        const user = await auth.getUserInfo();
+        
+        // Mise à jour du profil
+        document.getElementById('userName').textContent = user.prenom 
+          ? `${user.prenom} ${user.nom || ''}`.trim() 
+          : user.email;
+        document.getElementById('userEmail').textContent = user.email;
+        
+      } catch (error) {
+        console.error('Erreur lors du chargement des infos utilisateur:', error);
+      }
+    });
+
+    // Bouton de déconnexion
+    document.getElementById('logoutBtn').addEventListener('click', async function() {
+      if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+        try {
+          await auth.logout();
+          window.location.href = 'login.html';
+        } catch (error) {
+          alert('Erreur lors de la déconnexion: ' + error.message);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
