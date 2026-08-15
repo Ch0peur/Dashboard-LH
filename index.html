@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Staff - FiveM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="auth-page" class="auth-page">
+        <div class="auth-card">
+            <div class="auth-brand">
+                <div class="logo-icon"><img src="./Last_Hope.png" alt="Logo Last Hope" class="w-16 h-16 rounded-2xl shadow-lg shadow-brandViolet/30 object-cover"></div>
+                <div>
+                    <h1>Panel Staff</h1>
+                    <p>Connexion sécurisée</p>
+                </div>
+            </div>
+
+            <form id="login-form" class="login-form">
+                <label for="login-email">Adresse e-mail</label>
+                <input id="login-email" type="email" required>
+
+                <label for="login-password">Mot de passe</label>
+                <input id="login-password" type="password" required>
+
+                <label class="remember-me" style="display:flex; align-items:center; gap:10px; margin: 14px 0 18px; color: var(--text-muted); font-size: 13px;">
+                    <input id="remember-login" type="checkbox">
+                    <span>Se souvenir de moi</span>
+                </label>
+
+                <button type="submit" class="btn-primary wide">SE CONNECTER</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="app-shell" class="app-shell hidden">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon"><img src="./Last_Hope.png" alt="Logo Last Hope"></div>
+                <div class="logo-text">
+                    <h1>Panel Staff</h1>
+                    <p>GESTION ÉQUIPE & COMMUNICATION</p>
+                </div>
+            </div>
+
+            <div class="sidebar-content">
+                <div class="nav-section">
+                    <div class="nav-title">PILOTAGE</div>
+                    <a href="#" class="nav-item active" data-page="vue-ensemble">
+                        <i class="ph ph-squares-four"></i>
+                        <span>Vue d'ensemble</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="statistiques">
+                        <i class="ph ph-chart-bar"></i>
+                        <span>Statistiques</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="serveur">
+                        <i class="ph ph-server"></i>
+                        <span>Serveur</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">ÉQUIPE</div>
+                    <a href="#" class="nav-item">
+                        <i class="ph ph-git-branch"></i>
+                        <span>Organigramme</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="ph ph-calendar-x"></i>
+                        <span>Absences</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="ph ph-calendar-blank"></i>
+                        <span>Planning</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="formations">
+                        <i class="ph ph-graduation-cap"></i>
+                        <span>Formations</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="ph ph-users"></i>
+                        <span>Candidatures staff</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">JOUEURS</div>
+                    <a href="#" class="nav-item" data-page="whitelist">
+                        <i class="ph ph-identification-card"></i>
+                        <span>Whitelist</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="ph ph-gavel"></i>
+                        <span>Sanctions</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">PROJETS & COMMUNICATION</div>
+                    <a href="#" class="nav-item">
+                        <i class="ph ph-discord-logo"></i>
+                        <span>Entraide Discord</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="ph ph-kanban"></i>
+                        <span>Projets</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="ph ph-calendar-star"></i>
+                        <span>Évènements</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-title">ADMINISTRATION</div>
+                    <a href="#" class="nav-item" data-page="utilisateurs">
+                        <i class="ph ph-user-gear"></i>
+                        <span>Utilisateurs</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="ph ph-shield-check"></i>
+                        <span>Rôles & permissions</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="parametres">
+                        <i class="ph ph-gear"></i>
+                        <span>Paramètres</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-navbar">
+                <h2 id="page-title">VUE D'ENSEMBLE</h2>
+                <div class="navbar-right">
+                    <button id="theme-toggle" class="btn-theme-toggle" title="Basculer le mode">
+                        <i class="ph ph-sun"></i>
+                    </button>
+                    <button class="btn-assistance">
+                        <i class="ph ph-headset"></i>
+                        Assistance
+                    </button>
+                    <button id="login-button" class="btn-login">
+                        <i class="ph ph-sign-in"></i>
+                        Se connecter
+                    </button>
+                    <div id="user-profile" class="user-profile hidden">
+                        <img src="https://i.pravatar.cc/150?img=11" alt="Avatar">
+                        <div class="user-info">
+                            <span class="user-name">Nexoa</span>
+                            <span class="user-role">Fondateur</span>
+                        </div>
+                        <button id="logout-button" class="btn-logout" type="button">
+                            <i class="ph ph-sign-out"></i>
+                            Déconnexion
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+        <main class="main-content">
+            <!-- PAGE: VUE D'ENSEMBLE -->
+            <div id="page-vue-ensemble" class="page-container active">
+                <div class="welcome-card card">
+                    <div class="welcome-avatar">
+                        <img src="https://i.pravatar.cc/150?img=11" alt="Avatar">
+                    </div>
+                    <div class="welcome-text">
+                        <h3>Bonjour, Nexoa</h3>
+                        <p>Activité de l'équipe sur les 30 derniers jours.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="left-col">
+                        <div class="stats-row">
+                            <div class="stat-card card">
+                                <div class="stat-header">
+                                    <span class="stat-title">JOUEURS EN LIGNE</span>
+                                    <div class="stat-icon purple"><i class="ph ph-users"></i></div>
+                                </div>
+                                <div class="stat-value">8 / 400</div>
+                                <div class="stat-subtitle">mardi 13 août 2024, 12:45</div>
+                            </div>
+                            <div class="stat-card card">
+                                <div class="stat-header">
+                                    <span class="stat-title">WHITELIST</span>
+                                    <div class="stat-icon purple"><i class="ph ph-file-text"></i></div>
+                                </div>
+                                <div class="stat-value">9</div>
+                                <div class="stat-subtitle">30 derniers jours</div>
+                            </div>
+                        </div>
+
+                        <div class="chart-card card">
+                            <div class="card-header">
+                                <h3>Candidatures whitelist</h3>
+                                <p>du 15 juil. 2024 au 13 août 2024</p>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="candidaturesChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="bottom-cards-row">
+                            <div class="card flex-1">
+                                <h3>Absents en ce moment</h3>
+                                <div class="absence-list">
+                                    <div class="absence-item">
+                                        <img src="https://i.pravatar.cc/150?img=12" alt="A">
+                                        <div class="absence-info">
+                                            <strong>SweerZ</strong>
+                                            <span>Jusqu'au 20 août 2024</span>
+                                        </div>
+                                        <span class="badge blue">VACANCES</span>
+                                    </div>
+                                    <div class="absence-item">
+                                        <img src="https://i.pravatar.cc/150?img=13" alt="A">
+                                        <div class="absence-info">
+                                            <strong>Noxis</strong>
+                                            <span>Jusqu'au 19 août 2024</span>
+                                        </div>
+                                        <span class="badge blue">VACANCES</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card flex-1">
+                                <div class="card-header space-between">
+                                    <h3>Prochains créneaux</h3>
+                                    <a href="#" class="link">Planning <i class="ph ph-arrow-right"></i></a>
+                                </div>
+                                <div class="empty-state">
+                                    <p>Aucun créneau programmé.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="right-col">
+                        <div class="card project-card">
+                            <div class="card-header space-between">
+                                <span class="stat-title">PROJET ÉPINGLÉ</span>
+                                <div class="stat-icon purple"><i class="ph ph-push-pin"></i></div>
+                            </div>
+                            <div class="project-details">
+                                <h4>TEST</h4>
+                                <p>3/3 tâches</p>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: 100%; background-color: var(--primary-color);"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card roles-card">
+                            <h3>Effectifs par pôle</h3>
+                            <div class="roles-list">
+                                <div class="role-item">
+                                    <div class="role-header">
+                                        <span>Fondateur</span>
+                                        <span>2</span>
+                                    </div>
+                                    <div class="progress-bar-container"><div class="progress-bar" style="width: 100%; background-color: var(--role-fondateur);"></div></div>
+                                </div>
+                                <div class="role-item">
+                                    <div class="role-header">
+                                        <span>Modération - Staff</span>
+                                        <span>3</span>
+                                    </div>
+                                    <div class="progress-bar-container"><div class="progress-bar" style="width: 100%; background-color: var(--role-moderation);"></div></div>
+                                </div>
+                                <div class="role-item">
+                                    <div class="role-header">
+                                        <span>Support - Helper</span>
+                                        <span>2</span>
+                                    </div>
+                                    <div class="progress-bar-container"><div class="progress-bar" style="width: 100%; background-color: var(--role-support);"></div></div>
+                                </div>
+                                <div class="role-item">
+                                    <div class="role-header">
+                                        <span>Développeur</span>
+                                        <span>1</span>
+                                    </div>
+                                    <div class="progress-bar-container"><div class="progress-bar" style="width: 100%; background-color: var(--role-dev);"></div></div>
+                                </div>
+                                <div class="role-item">
+                                    <div class="role-header">
+                                        <span>Contributeur</span>
+                                        <span>3</span>
+                                    </div>
+                                    <div class="progress-bar-container"><div class="progress-bar" style="width: 100%; background-color: var(--role-contrib);"></div></div>
+                                </div>
+                                <div class="role-item">
+                                    <div class="role-header">
+                                        <span>Social Membre</span>
+                                        <span>4</span>
+                                    </div>
+                                    <div class="progress-bar-container"><div class="progress-bar" style="width: 100%; background-color: var(--role-social);"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header space-between">
+                                <h3>Prochains évènements</h3>
+                                <a href="#" class="link">Tout voir <i class="ph ph-arrow-right"></i></a>
+                            </div>
+                            <div class="empty-state">
+                                <p>Aucun évènement programmé.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE: WHITELIST -->
+            <div id="page-whitelist" class="page-container" style="display:none;">
+                <div class="card header-card">
+                    <div class="card-header space-between">
+                        <div>
+                            <h3>Whitelist</h3>
+                            <p>Candidatures, parrainages et groupes de whitelist. Chaque action publie un embed Discord.</p>
+                        </div>
+                    </div>
+                    <div class="alert-banner">
+                        <i class="ph ph-warning"></i>
+                        <span>Aucun webhook Discord configuré : les entrées seront enregistrées sans être publiées. <a href="#">Configurer les salons</a></span>
+                    </div>
+                </div>
+
+                <div class="tabs-container">
+                    <div class="tabs">
+                        <button class="tab-btn active"><i class="ph ph-plus"></i> NOUVELLE WHITELIST</button>
+                        <button class="tab-btn"><i class="ph ph-user-plus"></i> NOUVEAU PARRAINAGE</button>
+                        <button class="tab-btn"><i class="ph ph-users-three"></i> NOUVEAU GROUPE RP</button>
+                        <button class="tab-btn"><i class="ph ph-clock-counter-clockwise"></i> HISTORIQUE CANDIDATURES <span class="badge gray">0</span></button>
+                        <button class="tab-btn"><i class="ph ph-clock-counter-clockwise"></i> HISTORIQUE PARRAINAGES <span class="badge gray">1</span></button>
+                        <button class="tab-btn"><i class="ph ph-clock-counter-clockwise"></i> HISTORIQUE GROUPES <span class="badge gray">1</span></button>
+                    </div>
+                    
+                    <div class="tab-content card">
+                        <div class="tab-pane active">
+                            <h4>Nouvelle whitelist</h4>
+                            <p class="subtitle">Un embed vert (acceptée) ou rouge (refusée) est publié sur le salon whitelist.</p>
+                            
+                            <form class="form-grid">
+                                <div class="form-group">
+                                    <label>ID DISCORD <span class="required">*</span></label>
+                                    <input type="text" value="3848492023491322">
+                                </div>
+                                <div class="form-group">
+                                    <label>PSEUDO DU JOUEUR <span class="required">*</span></label>
+                                    <input type="text" value="Noxis">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>LIEN BACKGROUND</label>
+                                    <input type="text" value="https://docs.google.com/document/...">
+                                    <span class="help-text">Lien vers l'histoire du personnage (Google Docs, Pastebin...)</span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>AGE DU JOUEUR</label>
+                                    <input type="number" value="21">
+                                </div>
+                                <div class="form-group">
+                                    <label>TYPE DE RP JOUEUR <span class="required">*</span></label>
+                                    <select>
+                                        <option>Civil</option>
+                                        <option>LSPD</option>
+                                        <option>EMS</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>HEURES FIVEM - STEAM</label>
+                                    <input type="number" value="125">
+                                </div>
+                                
+                                <div class="form-group full-width">
+                                    <label>DÉCISION <span class="required">*</span></label>
+                                    <select>
+                                        <option>Acceptée</option>
+                                        <option>Refusée</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group full-width">
+                                    <label>COMMENTAIRE DU RECRUTEUR</label>
+                                    <input type="text" value="Validé rp">
+                                </div>
+                                
+                                <div class="form-section-title full-width">QUESTIONS COMPLÉMENTAIRES</div>
+                                <div class="form-group full-width">
+                                    <label>DEPUIS QUAND CONNAIS-TU LE SERVEUR ?</label>
+                                    <input type="text" placeholder="Réponse...">
+                                </div>
+                                
+                                <div class="form-actions full-width">
+                                    <button type="button" class="btn-primary">ENREGISTRER LA WHITELIST</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE: SERVEUR -->
+            <div id="page-serveur" class="page-container" style="display:none;">
+                <div class="card header-card">
+                    <div class="card-header space-between">
+                        <div>
+                            <h3>Serveur</h3>
+                            <p>Fréquentation du serveur FiveM : joueurs connectés, pics et tranches horaires.</p>
+                        </div>
+                        <div class="header-actions">
+                            <div class="time-toggle">
+                                <button class="active">24 H</button>
+                                <button>7 J</button>
+                                <button>30 J</button>
+                            </div>
+                            <button class="btn-secondary"><i class="ph ph-arrows-clockwise"></i> ACTUALISER</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-card card">
+                        <div class="stat-header">
+                            <span class="stat-title">JOUEURS CONNECTÉS</span>
+                            <div class="stat-icon purple"><i class="ph ph-users"></i></div>
+                        </div>
+                        <div class="stat-value">8 / 400</div>
+                    </div>
+                    <div class="stat-card card">
+                        <div class="stat-header">
+                            <span class="stat-title">PIC SUR 24 H</span>
+                            <div class="stat-icon purple"><i class="ph ph-trend-up"></i></div>
+                        </div>
+                        <div class="stat-value">70</div>
+                    </div>
+                    <div class="stat-card card">
+                        <div class="stat-header">
+                            <span class="stat-title">MOYENNE</span>
+                            <div class="stat-icon purple"><i class="ph ph-chart-line-up"></i></div>
+                        </div>
+                        <div class="stat-value">23</div>
+                    </div>
+                    <div class="stat-card card">
+                        <div class="stat-header">
+                            <span class="stat-title">SESSION MOYENNE</span>
+                            <div class="stat-icon purple"><i class="ph ph-hourglass"></i></div>
+                        </div>
+                        <div class="stat-value">1h 05</div>
+                    </div>
+                </div>
+
+                <div class="chart-card card">
+                    <div class="card-header">
+                        <h3>Joueurs connectés</h3>
+                        <p>Moyenne par tranche de 30 minutes.</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="serverChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card card">
+                    <div class="card-header">
+                        <h3>Durée des sessions</h3>
+                        <p>2355 sessions terminées sur 7 jours. La moitié des sessions dépassent 20 min, 30% durent plus d'une heure.</p>
+                    </div>
+                    <div class="chart-container" style="height: 200px;">
+                        <canvas id="sessionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE: STATISTIQUES -->
+            <div id="page-statistiques" class="page-container" style="display:none;">
+                <div class="card header-card">
+                    <div class="card-header space-between">
+                        <div>
+                            <h3>Statistiques</h3>
+                            <p>Analyse de la progression du serveur, du staff et des candidatures.</p>
+                        </div>
+                        <div class="header-actions">
+                            <div class="time-toggle">
+                                <button class="active">7 J</button>
+                                <button>30 J</button>
+                                <button>90 J</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-card card">
+                        <div class="stat-header">
+                            <span class="stat-title">CANDIDATURES</span>
+                            <div class="stat-icon purple"><i class="ph ph-file-text"></i></div>
+                        </div>
+                        <div class="stat-value">84</div>
+                        <div class="stat-subtitle">+12% vs mois précédent</div>
+                    </div>
+                    <div class="stat-card card">
+                        <div class="stat-header">
+                            <span class="stat-title">TICKETS OUVERTS</span>
+                            <div class="stat-icon purple"><i class="ph ph-ticket"></i></div>
+                        </div>
+                        <div class="stat-value">18</div>
+                        <div class="stat-subtitle">6 en attente de réponse</div>
+                    </div>
+                    <div class="stat-card card">
+                        <div class="stat-header">
+                            <span class="stat-title">STAFF ACTIF</span>
+                            <div class="stat-icon purple"><i class="ph ph-user-gear"></i></div>
+                        </div>
+                        <div class="stat-value">12</div>
+                        <div class="stat-subtitle">3 absents en ce moment</div>
+                    </div>
+                    <div class="stat-card card">
+                        <div class="stat-header">
+                            <span class="stat-title">TÂCHES VALIDÉES</span>
+                            <div class="stat-icon purple"><i class="ph ph-check-circle"></i></div>
+                        </div>
+                        <div class="stat-value">91%</div>
+                        <div class="stat-subtitle">Sur la période actuelle</div>
+                    </div>
+                </div>
+
+                <div class="bottom-cards-row">
+                    <div class="card flex-1">
+                        <div class="card-header">
+                            <h3>Évolution des candidatures</h3>
+                            <p>Analyse hebdomadaire</p>
+                        </div>
+                        <div class="chart-container" style="height: 260px;">
+                            <canvas id="statsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card flex-1">
+                        <div class="card-header">
+                            <h3>Répartition des rôles</h3>
+                            <p>Effectif par pôle</p>
+                        </div>
+                        <div class="roles-list">
+                            <div class="role-item">
+                                <div class="role-header"><span>Modération</span><span>32%</span></div>
+                                <div class="progress-bar-container"><div class="progress-bar" style="width: 32%; background-color: var(--role-moderation);"></div></div>
+                            </div>
+                            <div class="role-item">
+                                <div class="role-header"><span>Support</span><span>24%</span></div>
+                                <div class="progress-bar-container"><div class="progress-bar" style="width: 24%; background-color: var(--role-support);"></div></div>
+                            </div>
+                            <div class="role-item">
+                                <div class="role-header"><span>Développement</span><span>18%</span></div>
+                                <div class="progress-bar-container"><div class="progress-bar" style="width: 18%; background-color: var(--role-dev);"></div></div>
+                            </div>
+                            <div class="role-item">
+                                <div class="role-header"><span>Social</span><span>26%</span></div>
+                                <div class="progress-bar-container"><div class="progress-bar" style="width: 26%; background-color: var(--role-social);"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE: FORMATIONS -->
+            <div id="page-formations" class="page-container" style="display:none;">
+                <div class="card header-card">
+                    <div class="card-header space-between" style="margin-bottom: 0;">
+                        <div>
+                            <h3>Formations</h3>
+                            <p>Profil, avertissements et aptitudes de chaque membre du staff.</p>
+                            <div class="formations-summary">
+                                <div><strong>12</strong> FORMATIONS</div>
+                                <div><strong>10</strong> STAFFS</div>
+                                <div><strong>2/20</strong> VALIDÉES</div>
+                            </div>
+                        </div>
+                        <div class="header-actions">
+                            <div class="search-input">
+                                <i class="ph ph-magnifying-glass"></i>
+                                <input type="text" placeholder="Filtrer un staff...">
+                            </div>
+                            <button class="btn-primary"><i class="ph ph-plus"></i> NOUVELLE FORMATION</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card formations-grid-card" style="overflow-x: auto; padding: 0;">
+                    <table class="formations-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th><span class="badge yellow">SOCIAL MEMBRE</span><br><div class="staff-header"><img src="https://i.pravatar.cc/150?img=11"> Nexoa</div></th>
+                                <th><span class="badge yellow">SOCIAL MEMBRE</span><br><div class="staff-header"><img src="https://i.pravatar.cc/150?img=12"> SweerZ</div></th>
+                                <th><span class="badge red">CONTRIBUTEUR</span><br><div class="staff-header"><img src="https://i.pravatar.cc/150?img=13"> Noxis</div></th>
+                                <th><span class="badge green">SUPPORT - HELPER</span><br><div class="staff-header"><img src="https://i.pravatar.cc/150?img=14"> Koba</div></th>
+                                <th><span class="badge blue">MODERATION - STAFF</span><br><div class="staff-header"><img src="https://i.pravatar.cc/150?img=15"> Alpha</div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="section-row"><td colspan="6">APTITUDES</td></tr>
+                            <tr>
+                                <td>OUTILS DE MODÉRATION</td>
+                                <td class="check"><i class="ph ph-check"></i> Validé</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td class="check"><i class="ph ph-check"></i> Validé</td>
+                            </tr>
+                            <tr>
+                                <td>GESTION DES SANCTIONS</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>TRAITEMENT D'UN TICKET</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- PAGE: UTILISATEURS -->
+            <div id="page-utilisateurs" class="page-container" style="display:none;">
+                <div class="card header-card">
+                    <div class="card-header">
+                        <h3>Utilisateurs</h3>
+                        <p>Gestion des comptes staff et permissions.</p>
+                    </div>
+                </div>
+
+                <div class="settings-content">
+                    <div class="settings-main card">
+                        <div id="owner-only-note" class="owner-only-note hidden" style="margin-bottom: 24px; padding: 14px 16px; border-radius: 12px; background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); color: #fca5a5; font-size: 13px;">
+                            Seul le Fondateur peut créer ou gérer les comptes staff.
+                        </div>
+
+                        <div id="staff-account-management" class="staff-account-management hidden">
+                            <div class="form-section-title space-between" style="margin-bottom: 16px;">
+                                <span>Créer un compte staff</span>
+                            </div>
+
+                            <form id="create-staff-account-form" class="account-form">
+                                <div class="setting-row" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 16px;">
+                                    <div>
+                                        <label for="new-staff-name">Nom</label>
+                                        <input id="new-staff-name" type="text" placeholder="Ex : Lucas" required>
+                                    </div>
+                                    <div>
+                                        <label for="new-staff-role">Rôle</label>
+                                        <input id="new-staff-role" type="text" placeholder="Ex : Modération - Staff" required>
+                                    </div>
+                                </div>
+
+                                <div class="setting-row" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 16px;">
+                                    <div>
+                                        <label for="new-staff-email">Adresse e-mail</label>
+                                        <input id="new-staff-email" type="email" placeholder="exemple@panelstaff.fr" required>
+                                    </div>
+                                    <div>
+                                        <label for="new-staff-password">Mot de passe</label>
+                                        <input id="new-staff-password" type="password" placeholder="••••••••" required>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn-primary">Créer le compte</button>
+                            </form>
+                        </div>
+
+                        <div class="form-section-title space-between" style="margin-top: 32px; margin-bottom: 16px;">
+                            <span>Comptes staff</span>
+                        </div>
+                        <div id="staff-account-list" class="staff-account-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE: PARAMÈTRES -->
+            <div id="page-parametres" class="page-container" style="display:none;">
+                <div class="card header-card">
+                    <div class="card-header">
+                        <h3>Paramètres</h3>
+                        <p>Formulaires whitelist, activation, questions, publication.</p>
+                    </div>
+                    <div class="tabs-container">
+                        <div class="tabs" style="padding: 0; margin-bottom: 0;">
+                            <button class="tab-btn"><i class="ph ph-identification-card"></i> IDENTITÉ</button>
+                            <button class="tab-btn"><i class="ph ph-discord-logo"></i> DISCORD</button>
+                            <button class="tab-btn active"><i class="ph ph-list-dashes"></i> FORMULAIRES</button>
+                            <button class="tab-btn"><i class="ph ph-file-text"></i> CANDIDATURES</button>
+                            <button class="tab-btn"><i class="ph ph-list"></i> LISTES</button>
+                            <button class="tab-btn"><i class="ph ph-server"></i> SERVEUR FIVEM</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-content">
+                    <div class="settings-main card">
+                        <p class="subtitle" style="margin-bottom: 24px; font-size: 13px; color: var(--text-muted);">Chaque formulaire de la page Whitelist peut être masqué, filtré vers un salon et enrichi de vos propres questions. Une question désactivée ou supprimée reste listée dans les entrées déjà enregistrées.</p>
+                        
+                        <div class="module-toggle">
+                            <div class="toggle-info">
+                                <i class="ph ph-shield-check purple-icon"></i>
+                                <div>
+                                    <strong>Module whitelist</strong>
+                                    <p>Mettez en ligne si votre communauté ne gère pas de whitelist.</p>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div class="tabs" style="padding: 0; margin-top: 24px;">
+                            <button class="tab-btn active">CANDIDATURE</button>
+                            <button class="tab-btn">PARRAINAGE</button>
+                            <button class="tab-btn">GROUPE RP</button>
+                        </div>
+                        
+                        <div class="tab-pane active" style="margin-top: 24px;">
+                            <div class="form-section-title space-between">
+                                <span>Candidature <span class="badge green">VISIBLE</span></span>
+                            </div>
+                            
+                            <div class="setting-row">
+                                <label class="switch-label">
+                                    <input type="checkbox" checked>
+                                    <span>Afficher ce formulaire<br><small>Désactivé, son onglet disparaît de la page Whitelist.</small></span>
+                                </label>
+                                <label class="switch-label">
+                                    <input type="checkbox" checked>
+                                    <span>Publier l'embed Discord<br><small>Chaque enregistrement sera listé dans le salon configuré.</small></span>
+                                </label>
+                            </div>
+                            
+                            <h4 style="margin-top: 32px; font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">CHAMPS D'ORIGINE (6)</h4>
+                            <div class="fields-list">
+                                <div class="field-item">
+                                    <div class="field-name">ID DISCORD</div>
+                                    <div class="field-status"><span class="badge gray">Toujours affiché</span></div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-name">PSEUDO DU JOUEUR</div>
+                                    <div class="field-status"><span class="badge gray">Toujours affiché</span></div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-name">AGE DU JOUEUR</div>
+                                    <label class="switch"><input type="checkbox" checked><span class="slider round"></span></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-sidebar card" style="background-color: #1e1f22; color: #dcddde; border: none;">
+                        <h4 style="font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 16px;">Aperçu de l'embed</h4>
+                        <div class="discord-embed">
+                            <div class="embed-color" style="background-color: #10B981;"></div>
+                            <div class="embed-content">
+                                <div class="embed-author">Panel Staff <span style="color: #949ba4; font-size: 11px;">Aujourd'hui à 12:47</span></div>
+                                <div class="embed-title" style="color: #fff; font-weight: 600; font-size: 14px; margin-top: 4px;">Candidature acceptée</div>
+                                <div class="embed-desc" style="font-size: 13px; margin-top: 8px;">
+                                    <strong><@0000000000000000> - pseudo</strong><br><br>
+                                    Type RP du joueur: Civil<br>
+                                    Age: 21 ans<br>
+                                    Heures FiveM - Steam: 125 h<br><br>
+                                    <strong>Lien Background</strong><br>
+                                    <a href="#" style="color: #00a8fc;">https://docs.google.com/document/...</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
