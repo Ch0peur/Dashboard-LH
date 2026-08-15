@@ -17,10 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const staffAccountManagement = document.getElementById('staff-account-management');
     const ownerOnlyNote = document.getElementById('owner-only-note');
     const staffAccountList = document.getElementById('staff-account-list');
+    const themeToggle = document.getElementById('theme-toggle');
 
     const STAFF_DB_KEY = 'panelstaff_staff_accounts';
     const CURRENT_USER_KEY = 'panelstaff_current_user';
     const REMEMBERED_EMAIL_KEY = 'panelstaff_remembered_email';
+    const THEME_KEY = 'panelstaff_theme';
 
     const defaultStaffAccounts = [
         { id: 1, email: 'chppeur@gmail.com', password: '070108Vb@9972vB@', name: 'ch0ppeur', role: 'Fondateur', isActive: true },
@@ -532,4 +534,37 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     initializeCharts();
+
+    // Theme Toggle
+    const initializeTheme = () => {
+        const savedTheme = localStorage.getItem(THEME_KEY) || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+    };
+
+    const updateThemeIcon = (theme) => {
+        if (themeToggle) {
+            if (theme === 'dark') {
+                themeToggle.innerHTML = '<i class="ph ph-moon"></i>';
+            } else {
+                themeToggle.innerHTML = '<i class="ph ph-sun"></i>';
+            }
+        }
+    };
+
+    const toggleTheme = () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem(THEME_KEY, newTheme);
+        updateThemeIcon(newTheme);
+        showToast(`Mode ${newTheme === 'dark' ? 'sombre' : 'clair'} activé`);
+    };
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+
+    initializeTheme();
 });
