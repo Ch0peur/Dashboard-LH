@@ -1,8 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Effacer la localStorage et la réinitialiser
-    console.log('Initialisation du script - nettoyage de la localStorage');
-    localStorage.clear();
-    
     const navItems = document.querySelectorAll('.nav-item');
     const pageTitle = document.getElementById('page-title');
     const pages = document.querySelectorAll('.page-container');
@@ -55,26 +51,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const getStaffAccounts = () => {
         try {
             const stored = localStorage.getItem(STAFF_DB_KEY);
-            
-            // Toujours retourner les comptes par défaut pour debuguer
             if (!stored) {
-                console.log('localStorage vide, création des comptes par défaut');
                 localStorage.setItem(STAFF_DB_KEY, JSON.stringify(defaultStaffAccounts));
                 return [...defaultStaffAccounts];
             }
 
             const parsed = JSON.parse(stored);
-            console.log('Comptes chargés du localStorage:', parsed);
-            
             if (!Array.isArray(parsed) || parsed.length === 0) {
-                console.log('Données localStorage invalides, réinitialisation');
                 localStorage.setItem(STAFF_DB_KEY, JSON.stringify(defaultStaffAccounts));
                 return [...defaultStaffAccounts];
             }
 
             return parsed;
         } catch (error) {
-            console.error('Erreur lors de la lecture du localStorage:', error);
             localStorage.setItem(STAFF_DB_KEY, JSON.stringify(defaultStaffAccounts));
             return [...defaultStaffAccounts];
         }
@@ -234,15 +223,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const accounts = getStaffAccounts();
-        console.log('Tentative de connexion avec:', email);
-        console.log('Comptes disponibles:', accounts);
-        
         const matchedUser = accounts.find((account) => {
-            const emailMatch = account.email.toLowerCase() === email;
-            const passwordMatch = String(account.password).trim() === password;
-            const activeMatch = account.isActive !== false;
-            console.log(`Email ${account.email}: match=${emailMatch}, Pass match=${passwordMatch}, Active=${activeMatch}`);
-            return emailMatch && passwordMatch && activeMatch;
+            return account.email.toLowerCase() === email && String(account.password).trim() === password && account.isActive !== false;
         });
 
         if (!matchedUser) {
@@ -287,7 +269,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (logoutButton) {
         logoutButton.addEventListener('click', () => {
             setCurrentUser(null);
-            saveRememberedEmail('');
             setLoggedInState(false);
             if (emailInput) emailInput.value = '';
             if (passwordInput) passwordInput.value = '';
